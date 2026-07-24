@@ -1,0 +1,6 @@
+@NotaLink.API_HostAddress = http://localhost:5015
+
+GET {{NotaLink.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
