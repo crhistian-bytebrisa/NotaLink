@@ -51,10 +51,6 @@ Se ve mucho que un maestro tome calificaciones y asistencias en papel y luego se
         <td width="120" align="center">
             <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dotnetcore/dotnetcore-original.svg" width="50" />
             <br><strong>.NET</strong>
-        </td>
-        <td width="120" align="center">
-            <img src="https://cloud.githubusercontent.com/assets/5763993/26522718/d16f3e42-4330-11e7-9b78-f8c7402624e7.png" width="50" />
-            <br><strong>Mapster</strong>
         </td>            
         <td width="120" align="center">
             <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" width="50" />
@@ -65,6 +61,10 @@ Se ve mucho que un maestro tome calificaciones y asistencias en papel y luego se
     <td width="120" align="center">
             <img src="https://avatars.githubusercontent.com/u/5691010?s=200&v=4" width="50" />
             <br><strong>Serilog</strong>
+        </td>      
+        <td width="120" align="center">
+            <img src="https://cloud.githubusercontent.com/assets/5763993/26522718/d16f3e42-4330-11e7-9b78-f8c7402624e7.png" width="50" />
+            <br><strong>Mapster</strong>
         </td>
         <td width="120" align="center">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" width="50" />
