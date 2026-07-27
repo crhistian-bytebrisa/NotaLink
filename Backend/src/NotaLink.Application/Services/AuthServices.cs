@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using NotaLink.API.DTOs.Auth;
-using NotaLink.API.Entities;
+using NotaLink.Application.DTOs.Auth;
+using NotaLink.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 
-namespace NotaLink.API.Services
+namespace NotaLink.Application.Services
 {
     public class AuthServices
     {
@@ -28,15 +26,16 @@ namespace NotaLink.API.Services
 
         public async Task<AuthResponseDTO> RegisterUser(RegisterDTO register)
         {
-            var user = new User
-            {
-                UserName = register.UserName,
-                Name = register.Name,
-                LastName = register.LastName,
-                Email = register.Email
-            };
+            var user = register.Adapt<User>();
 
             var userResponse = await userManager.CreateAsync(user, register.Password);
+
+            if (!userResponse.Succeeded)
+            {
+                throw new InvalidOperationException(
+                    string.Join(" | ", userResponse.Errors.Select(e => e.Description))
+                );
+            }
 
             var expiration = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["JWT:ExpirationTime"]));
 
@@ -53,13 +52,16 @@ namespace NotaLink.API.Services
         {
             var user = await userManager.FindByEmailAsync(login.Email);
 
-            var users = userManager.Users;
-
-            var result = await signInManager.CheckPasswordSignInAsync(user, login.Password, lockoutOnFailure: false);
-
-            if(!result.Succeeded)
+            if (user is null)
             {
-                throw new ValidationException("Credenciales incorrectas.");
+                throw new UnauthorizedAccessException("Correo o contraseña incorrectos.");
+            }
+
+            var result = await signInManager.CheckPasswordSignInAsync(user, login.Password, false);
+
+            if (!result.Succeeded)
+            {
+                throw new UnauthorizedAccessException("Correo o contraseña incorrectos.");
             }
 
             var expiration = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["JWT:ExpirationTime"]));

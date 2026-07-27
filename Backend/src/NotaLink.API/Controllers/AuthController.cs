@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NotaLink.API.DTOs.Auth;
-using NotaLink.API.Entities;
-using NotaLink.API.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using NotaLink.Application.DTOs.Auth;
+using NotaLink.Domain.Entities;
+using NotaLink.Application.Services;
 
 namespace NotaLink.API.Controllers
 {

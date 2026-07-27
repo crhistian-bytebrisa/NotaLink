@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NotaLink.API.Migrations
+namespace NotaLink.Infraestructure.Migrations
 {
     /// <inheritdoc />
     public partial class initialmigration : Migration

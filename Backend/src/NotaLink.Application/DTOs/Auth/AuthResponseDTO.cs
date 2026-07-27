@@ -1,4 +1,4 @@
-﻿namespace NotaLink.API.DTOs.Auth
+namespace NotaLink.Application.DTOs.Auth
 {
     public class AuthResponseDTO
     {

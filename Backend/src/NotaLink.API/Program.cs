@@ -1,14 +1,17 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation;
 using Microsoft.OpenApi.Models;
-using NotaLink.API.Context;
-using NotaLink.API.Entities;
-using NotaLink.API.Services;
+using NotaLink.Infraestructure.Context;
+using NotaLink.Domain.Entities;
+using NotaLink.Application.Services;
+using NotaLink.Application.Validators;
 using System.Text;
+using NotaLink.Application.Mapping;
+using NotaLink.API.Middlewares;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace NotaLink.API
 {
@@ -16,6 +19,8 @@ namespace NotaLink.API
     {
         public static void Main(string[] args)
         {
+            MappingConfig.RegisterMappings();
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<NotaLinkContext>(options =>
@@ -24,7 +29,13 @@ namespace NotaLink.API
             });
 
             builder.Services.AddControllers();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<RegisterDTOValidator>();
+
+            builder.Services.AddFluentValidationAutoValidation();
+
             builder.Services.AddEndpointsApiExplorer();
+
             builder.Services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -52,18 +63,15 @@ namespace NotaLink.API
             });
 
 
-            //Apartado de autentificacion y autorizacion
+            // Apartado de autenticación y autorización
             builder.Services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<NotaLinkContext>()
+                .AddSignInManager()
                 .AddDefaultTokenProviders();
 
-            builder.Services.AddScoped<UserManager<User>>();
-            builder.Services.AddScoped<SignInManager<User>>();
             builder.Services.AddHttpContextAccessor();
 
-
             builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication();
             builder.Services.AddAuthentication().AddJwtBearer(opt =>
             {
                 opt.MapInboundClaims = false;
@@ -84,8 +92,9 @@ namespace NotaLink.API
                 };
             });
 
+            MappingConfig.RegisterMappings();
 
-            //Injeccion de dependencias para los servicios
+            // Inyección de dependencias para los servicios
             builder.Services.AddScoped<AuthServices>();
 
             var app = builder.Build();
@@ -98,7 +107,9 @@ namespace NotaLink.API
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

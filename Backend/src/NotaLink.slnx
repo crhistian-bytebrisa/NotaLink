@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="NotaLink.API/NotaLink.API.csproj" Id="108579fd-8ef5-4fa8-8e3b-617b73b2d5ef" />
+  <Project Path="NotaLink.Application/NotaLink.Application.csproj" Id="59b6ffb9-c48b-4572-b70d-eac1aaf0763c" />
+  <Project Path="NotaLink.Domain/NotaLink.Domain.csproj" Id="601499cc-2fe4-4e68-b79f-59ea8b13d085" />
+  <Project Path="NotaLink.Infraestructure/NotaLink.Infraestructure.csproj" Id="4ca15650-bb8e-425c-94b6-0c6780170b4a" />
 </Solution>

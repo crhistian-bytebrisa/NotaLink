@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using NotaLink.API.Entities;
+using NotaLink.Domain.Entities;
 
-namespace NotaLink.API.Context
+namespace NotaLink.Infraestructure.Context
 {
     public class NotaLinkContext : IdentityDbContext
     {

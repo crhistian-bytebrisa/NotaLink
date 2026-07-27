@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
-namespace NotaLink.API.Entities
+namespace NotaLink.Domain.Entities
 {
     public class User : IdentityUser
     {
