@@ -1,4 +1,8 @@
-﻿namespace NotaLink.API.Middlewares
+﻿using Microsoft.EntityFrameworkCore;
+using NotaLink.Application.DTOs.API;
+using System.ComponentModel.DataAnnotations;
+
+namespace NotaLink.API.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -19,6 +23,28 @@
             {
                 await next(context);
             }
+            catch (ValidationException ex)
+            {
+                logger.LogError(ex, ex.Message);
+
+                context.Response.StatusCode = 400;
+                context.Response.ContentType = "application/json";
+
+                var response = GetResponseByException(ex, context);
+
+                await context.Response.WriteAsJsonAsync(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                logger.LogError(ex, ex.Message);
+
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+
+                var response = GetResponseByException(ex, context);
+
+                await context.Response.WriteAsJsonAsync(response);
+            }
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message);
@@ -26,13 +52,25 @@
                 context.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
 
-                var response = new
-                {
-                    message = ex.Message
-                };
+                var response = GetResponseByException(ex, context);
 
                 await context.Response.WriteAsJsonAsync(response);
             }
         }
+        private ErrorResponse GetResponseByException(Exception ex, HttpContext context)
+        {
+            var response = new ErrorResponse
+            {
+                Status = context.Response.StatusCode,
+                Errors = new Dictionary<string, string[]>
+                {
+                    ["General"] = new[] { ex.Message }
+                },
+                TraceId = context.TraceIdentifier
+            };
+
+            return response;
+        }
     }
+    
 }
