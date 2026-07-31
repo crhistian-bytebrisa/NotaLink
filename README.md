@@ -1,4 +1,4 @@
-# 📓 NotaLink
+# 📓 NotaLink (En Desarrollo)
 ---
 
 <p align="center">
@@ -11,7 +11,7 @@ Se ve mucho que un maestro tome calificaciones y asistencias en papel y luego se
 
 ---
 
-## 👨‍🏫 Funcionalidades
+## 👨‍🏫 Funcionalidades futuras
 
 - Toma de asistencia de cada estudiante.
 - Toma de participacion en clase de los mismos.
